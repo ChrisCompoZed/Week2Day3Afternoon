@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title>Asynchronous Challenge</title>
+  </head>
+  <body>
+    <h1>And the total likes are...</h1>
+    <div id="total-likes">
+      loading...
+    </div>
+
+    <script type="text/javascript">
+      var usersRequest = new XMLHttpRequest;
+      usersRequest.open('GET', '/users');
+      usersRequest.responseType = 'json';
+      usersRequest.addEventListener('load', function () {
+        // your code here
+        var userList = usersRequest.response
+        console.log(userList)
+
+        for(var i =0; i<usersRequest.response.length; i++)
+        {
+          var userRequest = new XMLHttpRequest;
+          userRequest.open('GET', '/users/:id?id=4');
+          userRequest.responseType = 'json';
+          userRequest.addEventListener('load', function () {
+            console.log(userRequest.response)
+
+            var mylikes = document.getElementById("total-likes")
+            mylikes.innerHTML += JSON.stringify(userRequest.response)
+
+          })
+          userRequest.send('id=2');
+        }
+
+      });
+      usersRequest.send();
+    </script>
+
+  </body>
+</html>
