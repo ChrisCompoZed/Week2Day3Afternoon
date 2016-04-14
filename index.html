@@ -11,28 +11,31 @@
     </div>
 
     <script type="text/javascript">
+      var totalLikes = 0
       var usersRequest = new XMLHttpRequest;
       usersRequest.open('GET', '/users');
       usersRequest.responseType = 'json';
+
       usersRequest.addEventListener('load', function () {
-        // your code here
+
         var userList = usersRequest.response
         console.log(userList)
 
-        for(var i =0; i<usersRequest.response.length; i++)
-        {
+        userList.forEach( function (user) {
           var userRequest = new XMLHttpRequest;
-          userRequest.open('GET', '/users/:id?id=4');
+          userRequest.open('GET', '/users/' + user.id);
           userRequest.responseType = 'json';
           userRequest.addEventListener('load', function () {
-            console.log(userRequest.response)
 
+            console.log(userRequest.response)
             var mylikes = document.getElementById("total-likes")
-            mylikes.innerHTML += JSON.stringify(userRequest.response)
+            mylikes.innerHTML = totalLikes
+            totalLikes += userRequest.response.likes
 
           })
-          userRequest.send('id=2');
-        }
+          userRequest.send();
+
+        })
 
       });
       usersRequest.send();

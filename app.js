@@ -10,7 +10,7 @@ app.get('/users', function (req, res) {
 app.get('/users/:id', function (req, res) {
   var rand = Math.floor(Math.random() * 500) + 700;
   setTimeout(function () {
-    var user = findUser(1)//req.params.id);
+    var user = findUser(req.params.id);
     res.json(user);
   }, rand);
 });
@@ -34,3 +34,4 @@ var findUser = function (id) {
   }
   return user;
 };
+
